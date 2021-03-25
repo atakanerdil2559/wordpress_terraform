@@ -1,2 +1,2 @@
-# wordpress_terraform
-hosting wordpress using terraform
+## WordPress Terraform
+

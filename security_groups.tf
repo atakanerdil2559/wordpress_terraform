@@ -1,4 +1,4 @@
-###  bastion host security group
+###  Bastion Host Security Group
 resource "aws_security_group" "bastion_sg" {
   name        = "${var.env}-bastion_sg"
   description = "Allow http inbound traffic to alb"
@@ -23,7 +23,7 @@ resource "aws_security_group_rule" "bastion_egress" {
   security_group_id = aws_security_group.bastion_sg.id
 }
 
-###  wordpress host security group
+###  WordPress Host security group
 resource "aws_security_group" "wordpress_web_sg" {
   name        = "${var.env}-wordpress_web_sg"
   description = "Allow http inbound traffic to alb"
