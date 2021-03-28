@@ -18,3 +18,5 @@ Terraform AWS Template
 [terraform modules](https://registry.terraform.io/modules/erkinsinc/wordpress/aws/latest?tab=resources)
 
 [wordpress with terraform and ansible](https://mschirbel.medium.com/wordpress-on-aws-using-terraform-and-ansible-8c3e04cb76e9)
+
+[for each](https://learn.hashicorp.com/tutorials/terraform/for-each?in=terraform/configuration-language)
