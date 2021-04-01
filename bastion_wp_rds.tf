@@ -8,6 +8,7 @@ resource "aws_instance" "bastion_host" {
     Name = "${var.env}-bastion_host"
    }
 }
+
 ### wordpress web host ###
 resource "aws_instance" "wordpress_host" {
   depends_on = [ aws_key_pair.generated_key.name ]
@@ -22,6 +23,7 @@ resource "aws_instance" "wordpress_host" {
     Environment = var.env
   }
 }
+
 ### rds database instance ###
 resource "aws_db_instance" "rds-db" {
   allocated_storage    = var.allocated_storage
@@ -36,7 +38,8 @@ resource "aws_db_instance" "rds-db" {
   skip_final_snapshot = var.skip_snapshot
   final_snapshot_identifier = var.skip_snapshot == true ? null : "${var.env}-rds-snapshot"
   vpc_security_group_ids    = [ aws_security_group.rds-sg.id ]
-}  
+}
+
 resource "aws_db_subnet_group" "db-subnet-grp" {
   name        = "rds-subnet-grp"
   description = "rds subnet group"
