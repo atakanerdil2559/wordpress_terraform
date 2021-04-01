@@ -64,7 +64,7 @@ resource "aws_security_group_rule" "wordpress_egress" {
   security_group_id = aws_security_group.wordpress_web_sg.id
 }
 
-### application load balancer security group
+### Application Load Balancer security group
 resource "aws_security_group" "wordpress_alb_sg" {
   name        = "${var.env}-app_alb_sg"
   description = "Allow http and https inbound traffic"
@@ -97,7 +97,7 @@ resource "aws_security_group_rule" "wordpress_alb_sg_egress" {
   security_group_id = aws_security_group.wordpess_alb_sg.id
 }
 
-### rds database security group ###
+### RDS database security group ###
 resource "aws_security_group" "rds_sg" {
   name        = "${var.env}-rds-sg"
   description = "allow from self and local laptop"
