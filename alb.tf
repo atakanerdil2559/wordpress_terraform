@@ -43,6 +43,7 @@ resource "aws_lb_listener" "https_listener" {
     target_group_arn = aws_lb_target_group.web_tg.arn
   }
 }
+
 resource "aws_lb_listener" "http_listener" {
   depends_on = [  ]
   load_balancer_arn = aws_lb.webserver_alb.arn
