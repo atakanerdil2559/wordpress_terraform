@@ -73,6 +73,6 @@ variable "database_name" {
 }
 variable "ssh_key_name" {
     description = "ssh_key_name"
-    default = "Nazy'sMacKey"
+    default = "my-mac-key"
     type = string
 }
