@@ -1,4 +1,3 @@
-# AMI
 data "aws_ami" "amazon_linux2" {
   most_recent = true
   owners      = ["amazon"] # it can be "self" if you use your own ami or "account_number" of the ami owner
@@ -21,7 +20,6 @@ data "aws_ami" "amazon_linux2" {
   }
 }
 
-# User Data 
 data "template_file" "user_data" {
   template = file("${path.module}/user_data.sh")
   vars = {
@@ -29,7 +27,6 @@ data "template_file" "user_data" {
   }
 }
 
-# ACM certificate
 data "aws_acm_certificate" "amazon_issued" {
   domain   = "nazydaisy.com"
   statuses = ["ISSUED"]

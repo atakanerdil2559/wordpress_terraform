@@ -1,23 +1,25 @@
-# Application load balancer
-resource "aws_lb" "webserver_alb" {
-  name                       = "web-alb"
-  internal                   = false
-  load_balancer_type         = "application"
-  security_groups            = [aws_security_group.web_alb_sg.id]
-  subnets                    = data.aws_subnet_ids.default.ids #aws_subnet.public.*.id
+resource "aws_lb" "web_lb" {
+  name        = "${var.env}-web-lb"
+  internal           = false
+  load_balancer_type = "application"
+  security_groups    = [data.terraform_remote_state.vpc.outputs.web_lb_sg_id]
+  subnets            = data.terraform_remote_state.vpc.outputs.private_subnets_ids
   enable_deletion_protection = true
-
-  tags = {
-    Name = "${var.env}-web_alb"
-  }
+  tags = merge(
+    local.common_tags,
+    {
+      Name = "${var.env}_web_alb"
+    }
+  )
 }
-# Target group
+
 resource "aws_lb_target_group" "web_tg" {
-  name                          = "tf-alb-tg"
-  port                          = 80
-  protocol                      = "HTTP"
-  vpc_id                        = data.aws_vpc.default.id
+  name     = "${var.env}-tg"
+  port     = 80
+  protocol = "HTTP"
+  vpc_id   = data.terraform_remote_state.vpc.outputs.vpc_id
   load_balancing_algorithm_type = "least_outstanding_requests"
+  
   health_check {
     path    = "/"
     port    = 80
@@ -25,30 +27,36 @@ resource "aws_lb_target_group" "web_tg" {
   }
 }
 
-# Instance attachment
-resource "aws_lb_target_group_attachment" "test" {
+resource "aws_lb_target_group_attachment" "attachment" {
   target_group_arn = aws_lb_target_group.web_tg.arn
-  target_id        = aws_instance.web_tg.id
+  target_id        = aws_instance.wordpress_host.id
   port             = 80
 }
 
 resource "aws_lb_listener" "https_listener" {
-  load_balancer_arn = aws_lb.webserver_alb.arn
-  port              = "443"
+  load_balancer_arn = aws_lb.web_lb.arn
+  port              = "443" 
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
   certificate_arn   = data.aws_acm_certificate.amazon_issued.arn
+  
   default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.web_tg.arn
+    type = "redirect"
+
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+    }
   }
 }
 
 resource "aws_lb_listener" "http_listener" {
-  depends_on        = []
-  load_balancer_arn = aws_lb.webserver_alb.arn
-  port              = "80"
+  depends_on = [  ]
+  load_balancer_arn = aws_lb.web_lb.arn
+  port              = "80" 
   protocol          = "HTTP"
+  
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.web_tg.arn
