@@ -1,13 +1,13 @@
-### AMI for WordPress  and Bastion Hosts
+# AMI
 data "aws_ami" "amazon_linux2" {
-  most_recent      = true
-  owners           = ["amazon"] # it can be "self" if you use your own ami or "account_number" of the ami owner
+  most_recent = true
+  owners      = ["amazon"] # it can be "self" if you use your own ami or "account_number" of the ami owner
 
-  filter {   # dictionary or map
+  filter { # dictionary or map
     name   = "name"
     values = ["amzn2-ami-hvm-2.0*"]
   }
-  filter {  
+  filter {
     name   = "architecture"
     values = ["x86_64"]
   }
@@ -16,20 +16,20 @@ data "aws_ami" "amazon_linux2" {
     values = ["hvm"]
   }
   filter {
-    name =   "root-device-type"
+    name   = "root-device-type"
     values = ["ebs"]
   }
 }
 
-# User Data installs WordPress
-data "template_file" "user_data"  {
-  template = file("template_file/user_data.sh")
+# User Data 
+data "template_file" "user_data" {
+  template = file("${path.module}/user_data.sh")
   vars = {
     env = var.env
   }
 }
 
-# Find a certificate that is issued
+# ACM certificate
 data "aws_acm_certificate" "amazon_issued" {
   domain   = "nazydaisy.com"
   statuses = ["ISSUED"]
