@@ -5,7 +5,7 @@ resource "aws_instance" "wordpress_host" {
   vpc_security_group_ids = [data.terraform_remote_state.vpc.outputs.web_sg_id]
   subnet_id              = "data.terraform_remote_state.vpc.outputs.private_subnets_ids"
   user_data              = data.template_file.user_data.rendered
-  key_name               = bastion_key
+  # key_name               = bastion_key
 
   tags = merge(
     local.common_tags,
