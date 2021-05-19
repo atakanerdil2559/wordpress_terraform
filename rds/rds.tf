@@ -5,7 +5,7 @@ resource "aws_db_instance" "rds-db" {
   engine_version            = "10.5"
   instance_class            = var.instance_class
   identifier                = "${var.env}-my-db"
-  name                      = "my-rds"
+  name                      = "my_rds"
   username                  = "admin"
   password                  = random_password.password.result
   skip_final_snapshot       = var.skip_snapshot
@@ -23,7 +23,8 @@ resource "aws_db_instance" "rds-db" {
 resource "aws_db_subnet_group" "db-subnet-grp" {
   name        = "rds-subnet-grp"
   description = "rds subnet group"
-  subnet_ids  = [data.terraform_remote_state.vpc.outputs.private_subnets_ids]
+  subnet_ids = [ "subnet-099e148bc73b73598", "subnet-064f0fe34e35db49c", "subnet-0bd4818eb5b31e1d0"]
+  # subnet_ids  = [data.terraform_remote_state.vpc.outputs.private_subnets_ids]
   tags = merge(
     local.common_tags,
     {

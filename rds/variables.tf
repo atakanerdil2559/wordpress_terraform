@@ -7,7 +7,7 @@ variable "aws_region" {
 variable "instance_class" {
   type        = string
   description = "cidr block for the vpc"
-  default     = "db.t2.mciro"
+  default     = "db.t2.micro"
 }
 
 variable "env" {
