@@ -1,3 +1,4 @@
-## Providers file 
+# Ignore following files: 
 
-*providers.tf
+*.terraform*
+*terraform*
