@@ -46,6 +46,13 @@ variable "priv_cidr_subnet" {
   description = "cidr blocks for the private subnets"
 }
 
+# Bastion variables
+variable "instance_type" {
+  type        = string
+  description = "cidr block for the vpc"
+  default     = "t2.micro"
+}
+
 # Tags variables
 variable "env" {
   type        = string

@@ -30,11 +30,11 @@ output "bastion_sg_id" {
   description = "id of bastion sg"
 }
 output "web_sg_id" {
-  value       = aws_security_group.wordpress_web_sg.id
+  value       = aws_security_group.web_sg.id
   description = "id of wordpress sg"
 }
 output "web_lb_sg_id" {
-  value       = aws_security_group.wordpess_alb_sg.id
+  value       = aws_security_group.web_lb_sg.id
   description = "id of wordpess alb sg"
 }
 output "rds_sg_id" {
