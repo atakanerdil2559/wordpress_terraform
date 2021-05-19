@@ -14,3 +14,9 @@ variable "env" {
   description = "name of the environment"
   default     = "dev"
 }
+
+variable "zone_name" {
+  description = "Name of route 53 zone"
+  type        = string
+  default     = "nazydaisy.com."
+}

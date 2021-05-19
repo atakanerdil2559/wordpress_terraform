@@ -31,3 +31,7 @@ data "aws_acm_certificate" "amazon_issued" {
   domain   = "nazydaisy.com"
   statuses = ["ISSUED"]
 }
+
+data "aws_route53_zone" "my_zone" {
+  name = var.zone_name
+}
