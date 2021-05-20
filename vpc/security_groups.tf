@@ -2,6 +2,7 @@
 resource "aws_security_group" "bastion_sg" {
   name        = "${var.env}_bastion_sg"
   description = "Allow http inbound traffic to alb"
+  vpc_id      = aws_vpc.my_vpc.id
   tags = merge(
     local.common_tags,
     {
@@ -38,6 +39,7 @@ resource "aws_security_group_rule" "bastion_egress" {
 resource "aws_security_group" "web_sg" {
   name        = "${var.env}_wordpress_sg"
   description = "Allow http inbound traffic to alb"
+  vpc_id      = aws_vpc.my_vpc.id
   tags = merge(
     local.common_tags,
     {
@@ -82,6 +84,7 @@ resource "aws_security_group_rule" "web_egress" {
 resource "aws_security_group" "web_lb_sg" {
   name        = "${var.env}_web_lb_sg"
   description = "Allow http and https inbound traffic"
+  vpc_id      = aws_vpc.my_vpc.id
   tags = merge(
     local.common_tags,
     {
@@ -118,6 +121,7 @@ resource "aws_security_group_rule" "wordpress_alb_sg_egress" {
 resource "aws_security_group" "rds_sg" {
   name        = "${var.env}_rds_sg"
   description = "allow from self and local laptop"
+  vpc_id      = aws_vpc.my_vpc.id
   tags = merge(
     local.common_tags,
     {
