@@ -20,12 +20,12 @@ data "aws_ami" "amazon_linux2" {
   }
 }
 
-data "template_file" "user_data" {
-  template = file("${path.module}/user_data.sh")
-  vars = {
-    env = var.env
-  }
-}
+# data "template_file" "user_data" {
+#   template = file("${path.module}/user_data.sh")
+#   vars = {
+#     env = var.env
+#   }
+# }
 
 data "aws_acm_certificate" "amazon_issued" {
   domain   = "nazydaisy.com"
