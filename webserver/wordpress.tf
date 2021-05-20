@@ -2,10 +2,10 @@ resource "aws_instance" "wordpress_host" {
   ami                    = data.aws_ami.amazon_linux2.image_id
   instance_type          = var.instance_type
   vpc_security_group_ids = [data.terraform_remote_state.vpc.outputs.web_sg_id]
-  subnet_id              = "subnet-0912c2a044837dc1a"
-  # subnet_id              = data.terraform_remote_state.vpc.outputs.private_subnets_ids
+  # subnet_id              = ""
+  subnet_id              = "${data.terraform_remote_state.vpc.outputs.private_subnets_ids}"
   # user_data = data.template_file.user_data.rendered
-  # key_name  = "bastion-key"
+  key_name  = "bastion-key"
 
   tags = merge(
     local.common_tags,
