@@ -3,7 +3,7 @@ resource "aws_instance" "bastion_host" {
   instance_type               = var.instance_type
   vpc_security_group_ids      = [aws_security_group.bastion_sg.id]
   subnet_id                   = aws_subnet.public_subnet[1].id
-  associate_public_ip_address = true
+  associate_public_ip_address = var.associate_public_ip_address
   key_name                    = "new-key"
   tags = merge(
     local.common_tags,
