@@ -50,7 +50,11 @@ variable "priv_cidr_subnet" {
 variable "instance_type" {
   type        = string
   description = "cidr block for the vpc"
-  default     = "t2.micro"
+}
+
+variable "associate_public_ip_address" {
+  type        = bool
+  description = "associate public ip address"
 }
 
 # Tags variables
