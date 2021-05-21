@@ -3,8 +3,8 @@ resource "aws_lb" "web_lb" {
   internal           = false
   load_balancer_type = "application"
   security_groups    = [data.terraform_remote_state.vpc.outputs.web_lb_sg_id]
-  # subnets            = ["subnet-027e488bfc8bc10d8", "subnet-0e90672f2e5ae2c48", "subnet-0b9716e730f622288"]
-  subnets                    = data.terraform_remote_state.vpc.outputs.private_subnets_ids
+  subnets            = ["subnet-027e488bfc8bc10d8", "subnet-0e90672f2e5ae2c48", "subnet-0b9716e730f622288"]
+  # subnets                    = data.terraform_remote_state.vpc.outputs.private_subnets_ids
   enable_deletion_protection = true
   tags = merge(
     local.common_tags,
@@ -42,13 +42,8 @@ resource "aws_lb_listener" "https_listener" {
   certificate_arn   = data.aws_acm_certificate.amazon_issued.arn
 
   default_action {
-    type = "redirect"
-
-    redirect {
-      port        = "443"
-      protocol    = "HTTPS"
-      status_code = "HTTP_301"
-    }
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.web_tg.arn
   }
 }
 
@@ -58,8 +53,13 @@ resource "aws_lb_listener" "http_listener" {
   port              = "80"
   protocol          = "HTTP"
 
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.web_tg.arn
+    default_action {
+    type = "redirect"
+
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+    }
   }
 }
