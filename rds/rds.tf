@@ -21,15 +21,17 @@ resource "aws_db_instance" "rds-db" {
   )
 }
 
- resource "aws_db_subnet_group" "db-subnet-grp" {
-   name        = "rds-subnet-grp"
-   description = "rds subnet group"
-   subnet_ids = [ "subnet-0c041ed67fac1cd4b", "subnet-0680b3f6358d8a9fb", "subnet-0bc9131cc484f923f"]
-   # subnet_ids  = [data.terraform_remote_state.vpc.outputs.private_subnets_ids[*]]
-   tags = merge(
+resource "aws_db_subnet_group" "db-subnet-grp" {
+  name        = "rds-subnet-grp"
+  description = "rds subnet group"
+  # subnet_ids  = [data.terraform_remote_state.vpc.outputs.private_subnets_ids[*]]
+  subnet_ids = [data.terraform_remote_state.vpc.outputs.private_subnets_one,
+                data.terraform_remote_state.vpc.outputs.private_subnets_two,
+                data.terraform_remote_state.vpc.outputs.private_subnets_three]
+  tags = merge(
     local.common_tags,
-     {
-       Name = "${var.env}_subnet_grp"
-     }
+    {
+      Name = "${var.env}_subnet_grp"
+    }
   )
 }
