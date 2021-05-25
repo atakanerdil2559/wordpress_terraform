@@ -5,7 +5,7 @@ resource "aws_db_instance" "rds-db" {
   engine_version            = "10.5"
   instance_class            = var.instance_class
   identifier                = "${var.env}-my-db"
-  name                      = "my_rds"
+  name                      = "wordpressdb"
   username                  = "admin"
   password                  = random_password.password.result
   db_subnet_group_name      = aws_db_subnet_group.db-subnet-grp.name
@@ -26,8 +26,8 @@ resource "aws_db_subnet_group" "db-subnet-grp" {
   description = "rds subnet group"
   # subnet_ids  = [data.terraform_remote_state.vpc.outputs.private_subnets_ids[*]]
   subnet_ids = [data.terraform_remote_state.vpc.outputs.private_subnets_one,
-                data.terraform_remote_state.vpc.outputs.private_subnets_two,
-                data.terraform_remote_state.vpc.outputs.private_subnets_three]
+    data.terraform_remote_state.vpc.outputs.private_subnets_two,
+  data.terraform_remote_state.vpc.outputs.private_subnets_three]
   tags = merge(
     local.common_tags,
     {
