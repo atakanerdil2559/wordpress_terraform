@@ -3,9 +3,11 @@ resource "aws_lb" "web_lb" {
   internal           = false
   load_balancer_type = "application"
   security_groups    = [data.terraform_remote_state.vpc.outputs.web_lb_sg_id]
-  subnets            = ["subnet-027e488bfc8bc10d8", "subnet-0e90672f2e5ae2c48", "subnet-0b9716e730f622288"]
-  # subnets                    = data.terraform_remote_state.vpc.outputs.private_subnets_ids
-  enable_deletion_protection = true
+  subnets = [data.terraform_remote_state.vpc.outputs.public_subnet_one,
+    data.terraform_remote_state.vpc.outputs.public_subnet_two,
+  data.terraform_remote_state.vpc.outputs.public_subnet_three]
+  # subnets           = data.terraform_remote_state.vpc.outputs.public_subnets_ids
+  enable_deletion_protection = false
   tags = merge(
     local.common_tags,
     {
@@ -28,11 +30,11 @@ resource "aws_lb_target_group" "web_tg" {
   }
 }
 
-resource "aws_lb_target_group_attachment" "attachment" {
-  target_group_arn = aws_lb_target_group.web_tg.arn
-  target_id        = aws_instance.wordpress_host.id
-  port             = 80
-}
+# resource "aws_lb_target_group_attachment" "attachment" {
+#   target_group_arn = aws_lb_target_group.web_tg.arn
+#   target_id        = aws_instance.wordpress_host.id
+#   port             = 80
+# }
 
 resource "aws_lb_listener" "https_listener" {
   load_balancer_arn = aws_lb.web_lb.arn
@@ -53,7 +55,7 @@ resource "aws_lb_listener" "http_listener" {
   port              = "80"
   protocol          = "HTTP"
 
-    default_action {
+  default_action {
     type = "redirect"
 
     redirect {
