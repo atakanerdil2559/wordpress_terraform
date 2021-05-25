@@ -1,11 +1,29 @@
 output "vpc_id" {
   value = aws_vpc.my_vpc.id
 }
-output "public_subnet_ids" {
-  value = aws_subnet.public_subnet[*].id
+output "public_subnet_one" {
+  value = aws_subnet.public_subnet[0].id
 }
-output "private_subnets_ids" {
-  value = aws_subnet.private_subnet[*].id
+output "public_subnet_two" {
+  value = aws_subnet.public_subnet[1].id
+}
+output "public_subnet_three" {
+  value = aws_subnet.public_subnet[2].id
+}
+# output "private_subnets_ids" {
+#   value = aws_subnet.private_subnet[*].id
+# }
+# output "public_subnet_ids" {
+#   value = aws_subnet.public_subnet[*].id
+# }
+output "private_subnets_one" {
+  value = aws_subnet.private_subnet[0].id
+}
+output "private_subnets_two" {
+  value = aws_subnet.private_subnet[1].id
+}
+output "private_subnets_three" {
+  value = aws_subnet.private_subnet[2].id
 }
 output "igw_id" {
   value       = aws_internet_gateway.igw.id
