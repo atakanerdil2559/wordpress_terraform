@@ -1,4 +1,4 @@
-WIP
+Work In Progress
 # Wordpress with Terraform
 
 Terraform AWS Template
@@ -39,7 +39,11 @@ Terraform AWS Template
 
 - RDS database
   - Database Subnet Group
-  
+
+- DNS
+  - Route 53
+  - ACM Certificate
+
 This resource blocks generated keys and stores it in state file, it is not a good practice to pass around a private key but for temporary dev environment where you don't need to pass the key is ok. create script for ssh-keygen, import the key to aws console, use ansible
 ```
 key_name      = aws_key_pair.generated_key.key_name
