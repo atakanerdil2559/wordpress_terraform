@@ -100,7 +100,7 @@ resource "aws_security_group_rule" "lb_http_ingress" {
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.web_lb_sg.id
 }
-resource "aws_security_group_rule" "webserver_lb_sg_https_ingress" {
+resource "aws_security_group_rule" "lb_https_ingress" {
   type              = "ingress"
   from_port         = 443
   to_port           = 443
@@ -108,7 +108,7 @@ resource "aws_security_group_rule" "webserver_lb_sg_https_ingress" {
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.web_lb_sg.id
 }
-resource "aws_security_group_rule" "wordpress_alb_sg_egress" {
+resource "aws_security_group_rule" "lb_sg_egress" {
   type              = "egress"
   from_port         = 0
   to_port           = 0
@@ -129,7 +129,7 @@ resource "aws_security_group" "rds_sg" {
     }
   )
 }
-resource "aws_security_group_rule" "rds_ingress_mysql" {
+resource "aws_security_group_rule" "rds_mysql_ingress" {
   type                     = "ingress"
   from_port                = 3306
   to_port                  = 3306
