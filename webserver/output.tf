@@ -1,8 +1,3 @@
-# output "wordpess_host_id" {
-#   value       = aws_instance.wordpress_host.id
-#   description = "id of wordpess host"
-# }
-
 output "wordpress_lb_id" {
   value       = aws_lb.web_lb.id
   description = "id of wordpress alb"
