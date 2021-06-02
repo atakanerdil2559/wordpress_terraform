@@ -43,10 +43,6 @@ output "priv_rtp_id" {
 }
 
 # Security groups
-output "bastion_sg_id" {
-  value       = aws_security_group.bastion_sg.id
-  description = "id of bastion sg"
-}
 output "web_sg_id" {
   value       = aws_security_group.web_sg.id
   description = "id of wordpress sg"
