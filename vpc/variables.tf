@@ -46,17 +46,6 @@ variable "priv_cidr_subnet" {
   description = "cidr blocks for the private subnets"
 }
 
-# Bastion variables
-variable "instance_type" {
-  type        = string
-  description = "cidr block for the vpc"
-}
-
-variable "associate_public_ip_address" {
-  type        = bool
-  description = "associate public ip address"
-}
-
 # Tags variables
 variable "env" {
   type        = string
