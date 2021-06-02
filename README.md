@@ -5,7 +5,7 @@ Terraform AWS Template
 
  ## Prerequisites:
    - AWS account
-   - Terraform installed 
+   - Terraform installed version 0.14
    - SSL Certificate
    - SSH key
    - Domain Name
@@ -24,17 +24,16 @@ Terraform AWS Template
     - Public/Private Route Table Association
 
 - Security Groups
-   - Bastion Security Group
    - Webserver Security Group 
    - RDS Security Group
    - Application Load Balancer Security Group
 
 - Application Load Balacer
-  - Targer Group
+  - Target Group
   - HTTP Listener
   - HTTPS Listener
 
-- Autoscalint Group
+- Auto scaling Group
   - Launch Template
 
 - RDS database
