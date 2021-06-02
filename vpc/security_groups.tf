@@ -80,7 +80,7 @@ resource "aws_security_group_rule" "lb_sg_egress" {
   security_group_id = aws_security_group.web_lb_sg.id
 }
 
-### RDS database security group ###
+# RDS database security group
 resource "aws_security_group" "rds_sg" {
   name        = "${var.env}_rds_sg"
   description = "allow from self and local laptop"
