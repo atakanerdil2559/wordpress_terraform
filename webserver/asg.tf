@@ -2,7 +2,7 @@ resource "aws_autoscaling_group" "web_asg" {
   name                = "${var.env}_web_asg"
   max_size            = 3
   min_size            = 1
-  desired_capacity    = 3
+  desired_capacity    = 1
   health_check_type   = "ELB"
   force_delete        = true
   target_group_arns   = [aws_lb_target_group.web_tg.arn]
