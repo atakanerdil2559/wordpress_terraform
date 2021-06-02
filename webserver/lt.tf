@@ -1,4 +1,3 @@
-# Launch Template
 resource "aws_launch_template" "web_template" {
   name_prefix            = "${var.env}_web_template"
   image_id               = data.aws_ami.amazon_linux2.image_id
