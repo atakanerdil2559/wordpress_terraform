@@ -15,6 +15,11 @@ variable "env" {
   default     = "dev"
 }
 
+variable "key_name" {
+  type = string
+  default = "bastion-key"
+}
+
 variable "zone_name" {
   description = "Name of route 53 zone"
   type        = string
