@@ -6,10 +6,10 @@ resource "aws_autoscaling_group" "web_asg" {
   health_check_type = "ELB"
   force_delete      = true
   target_group_arns = [aws_lb_target_group.web_tg.arn]
-  # vpc_zone_identifier = [data.terraform_remote_state.vpc.outputs.private_subnets_[*]]
-  vpc_zone_identifier = [data.terraform_remote_state.vpc.outputs.private_subnets_one,
-    data.terraform_remote_state.vpc.outputs.private_subnets_two,
-  data.terraform_remote_state.vpc.outputs.private_subnets_three]
+  vpc_zone_identifier = data.terraform_remote_state.vpc.outputs.private_subnets_ids
+  # vpc_zone_identifier = [data.terraform_remote_state.vpc.outputs.private_subnets_one,
+  #   data.terraform_remote_state.vpc.outputs.private_subnets_two,
+  # data.terraform_remote_state.vpc.outputs.private_subnets_three]
 
   launch_template {
     id      = aws_launch_template.web_template.id
