@@ -43,6 +43,10 @@ output "priv_rtp_id" {
 }
 
 # Security groups
+output "bastion_sg_id" {
+  value       = aws_security_group.bastion_sg.id
+  description = "id of wordpress sg"
+}
 output "web_sg_id" {
   value       = aws_security_group.web_sg.id
   description = "id of wordpress sg"
@@ -54,4 +58,10 @@ output "web_lb_sg_id" {
 output "rds_sg_id" {
   value       = aws_security_group.rds_sg.id
   description = "id of rds_sg"
+}
+
+# Bastion host
+output "bastion_host_id" {
+  value       = aws_instance.bastion_host.id
+  description = "id of bastion host"
 }
