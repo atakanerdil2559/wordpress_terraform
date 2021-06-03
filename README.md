@@ -12,16 +12,15 @@ Terraform AWS Template
 
 ## Resources
 
- #### Network
-  - VPC
-    - 3 Public Subnets
-    - 3 Private Subnets
-    - Public Route Table
-    - Private Route Table
-    - Elastic IP
-    - Internet Gateway
-    - Nat Gateway
-    - Public/Private Route Table Association
+- VPC
+  - 3 Public Subnets
+  - 3 Private Subnets
+  - Public Route Table
+  - Private Route Table
+  - Elastic IP
+  - Internet Gateway
+  - Nat Gateway
+  - Public/Private Route Table Association
 
 - Security Groups
    - Webserver Security Group 
