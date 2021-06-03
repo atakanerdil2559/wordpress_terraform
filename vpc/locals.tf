@@ -3,6 +3,6 @@ locals {
     Environment = var.env
     Project     = "${var.env}-wordpress"
     Team        = "development"
-    Owner       = "admin"
+    Owner       = "nazy@gmail.com"
   }
 }
