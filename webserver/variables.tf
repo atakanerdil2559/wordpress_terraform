@@ -16,7 +16,7 @@ variable "env" {
 }
 
 variable "key_name" {
-  type = string
+  type    = string
   default = "bastion-key"
 }
 

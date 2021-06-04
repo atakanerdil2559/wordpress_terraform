@@ -1,9 +1,9 @@
 resource "aws_lb" "web_lb" {
-  name               = "${var.env}-web-lb"
-  internal           = false
-  load_balancer_type = "application"
-  security_groups    = [data.terraform_remote_state.vpc.outputs.web_lb_sg_id]
-  subnets           = data.terraform_remote_state.vpc.outputs.public_subnet_ids
+  name                       = "${var.env}-web-lb"
+  internal                   = false
+  load_balancer_type         = "application"
+  security_groups            = [data.terraform_remote_state.vpc.outputs.web_lb_sg_id]
+  subnets                    = data.terraform_remote_state.vpc.outputs.public_subnets_ids
   enable_deletion_protection = false
   tags = merge(
     local.common_tags,
