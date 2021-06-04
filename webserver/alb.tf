@@ -2,11 +2,8 @@ resource "aws_lb" "web_lb" {
   name               = "${var.env}-web-lb"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = data.terraform_remote_state.vpc.outputs.web_lb_sg_id
-  # subnets = [data.terraform_remote_state.vpc.outputs.public_subnet_one,
-  #   data.terraform_remote_state.vpc.outputs.public_subnet_two,
-  # data.terraform_remote_state.vpc.outputs.public_subnet_three]
-  subnets           = data.terraform_remote_state.vpc.outputs.public_subnets_ids
+  security_groups    = [data.terraform_remote_state.vpc.outputs.web_lb_sg_id]
+  subnets           = data.terraform_remote_state.vpc.outputs.public_subnet_ids
   enable_deletion_protection = false
   tags = merge(
     local.common_tags,
@@ -26,7 +23,7 @@ resource "aws_lb_target_group" "web_tg" {
   health_check {
     path    = "/"
     port    = 80
-    matcher = "200"
+    matcher = "301"
   }
 }
 
