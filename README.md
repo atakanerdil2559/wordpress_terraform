@@ -1,13 +1,11 @@
 Work In Progress
-# Wordpress with Terraform
-
-Terraform AWS Template
+# Wordpress with bastion using Terraform
 
  ## Prerequisites:
    - AWS account
    - Terraform installed version 0.14
    - SSL Certificate
-   - SSH key
+   - Existing SSH key
    - Domain Name
 
 ## Resources
@@ -23,9 +21,12 @@ Terraform AWS Template
   - Public/Private Route Table Association
 
 - Security Groups
-   - Webserver Security Group 
-   - RDS Security Group
-   - Application Load Balancer Security Group
+  - Bastion Secirity Group
+  - Webserver Security Group 
+  - RDS Security Group
+  - Application Load Balancer Security Group
+
+- Bastion Host
 
 - Application Load Balacer
   - Target Group
