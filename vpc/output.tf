@@ -1,3 +1,4 @@
+# VPC outputs
 output "vpc_id" {
   value = aws_vpc.my_vpc.id
 }
@@ -24,7 +25,7 @@ output "priv_rtp_id" {
   description = "private route table id"
 }
 
-# Security groups
+# Security groups outputs
 output "bastion_sg_id" {
   value       = aws_security_group.bastion_sg.id
   description = "id of wordpress sg"
@@ -42,7 +43,7 @@ output "rds_sg_id" {
   description = "id of rds_sg"
 }
 
-# Bastion host
+# Bastion host outputs
 output "bastion_host_id" {
   value       = aws_instance.bastion_host.id
   description = "id of bastion host"
