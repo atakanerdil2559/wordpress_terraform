@@ -1,16 +1,30 @@
 Work In Progress
 # Wordpress with bastion using Terraform
 
- ## Prerequisites:
+## Prerequisites:
+
    - AWS account
    - Terraform installed version 0.14
    - SSL Certificate
    - Existing SSH key
    - Domain Name
 
+## Usage
+
+```
+git clone https://github.com/nazy67/wordpress_with_terraform.git
+
+terraform init
+
+terraform plan  -var-file=tfvars/dev.tf
+
+terraform apply -var-file=tfvars/dev.tf
+```
+
 ## Resources
 
 - VPC
+
   - 3 Public Subnets
   - 3 Private Subnets
   - Public Route Table
@@ -21,6 +35,7 @@ Work In Progress
   - Public/Private Route Table Association
 
 - Security Groups
+
   - Bastion Secirity Group
   - Webserver Security Group 
   - RDS Security Group
@@ -29,22 +44,20 @@ Work In Progress
 - Bastion Host
 
 - Application Load Balacer
-  - Target Group
-  - HTTP Listener
-  - HTTPS Listener
 
-- Auto scaling Group
-  - Launch Template
+- Application
 
-- RDS database
-  - Database Subnet Group
+  - Frontend:
+    - Auto scaling Group
+      - Launch Template
+  
+  - Backend:
+    - RDS database
+      - Database Subnet Group
 
 - DNS
   - Route 53
   - ACM Certificate
-
-## Usage
-
 
 ## Description
 
@@ -56,7 +69,8 @@ For private subnets Internet comes with NAT Gateway it will be created with Elas
 
 The next resource is Route tables (public and private) 2 public subnets will be associated with  Public-RT attached with Internet Gateway and 2 private subnets will be associated with  Private-RT which is attached to Nat Gateway. 
 
-The next step is security groups: 
+The next step is security groups:
+ 
   - Load balancer security group  with HTTPS 443 and HTTP 80 ports open to 0.0.0.0/0.
   - RDS security group with MySQL port 3306 open to WordPress host's Security Group. 
   - WordPress host's Security group with port MySQL 3306 open to RDS's Security Group, and HTTP port 80 open to ELB Security Group.
