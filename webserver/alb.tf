@@ -17,6 +17,7 @@ resource "aws_lb_target_group" "web_tg" {
   name                          = "${var.env}-tg"
   port                          = 80
   protocol                      = "HTTP"
+  target_type                   = "instance"
   vpc_id                        = data.terraform_remote_state.vpc.outputs.vpc_id
   load_balancing_algorithm_type = "least_outstanding_requests"
 
