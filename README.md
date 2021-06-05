@@ -1,4 +1,5 @@
-Work In Progress
+# Work In Progress
+
 # Wordpress with bastion using Terraform
 
 ## Prerequisites:
@@ -10,7 +11,6 @@ Work In Progress
    - Domain Name
 
 ## Usage
-
 ```
 git clone https://github.com/nazy67/wordpress_with_terraform.git
 
@@ -20,7 +20,6 @@ terraform init
 terraform plan  -var-file=tfvars/dev.tf
 terraform apply -var-file=tfvars/dev.tf
 ```
-
 ## Resources
 
 - VPC
@@ -61,6 +60,7 @@ terraform apply -var-file=tfvars/dev.tf
 
 ## Description
 
+#### VPC
 The content of this Repository is reusable and it will provision `VPC` with CIDR 10.0.0.0/16, with  `3 Public subnets` with CIDR 10.0.1.0/24, 10.0.2.0/24 & 10.0.3.0/24 and `3 Private subnets` with CIDR 10.0.10.0/24, 10.0.11.0/24 & 10.0.12.0/24. 
 
 The VPC is configured with count meta-argument with index, element, lenght functions and for tags locals with merge function is used. When we have similar (repeating) resources such as public/private subnets and public/private route table associations we can use count.index to avoid it. With one public/private subnet resource block we are able to provision three public/private subnets, same with Route table association (where 3 Public subnets associated with `Public-RT` attached to Internet Gateway, and 3 Private subnets associated with `Private-RT` which is attached to Nat Gateway). Values for variables defined in variables.tf were passed as a list of strings in tfvars/dev.tf.
@@ -74,7 +74,11 @@ To have access to the Internet (o.o.o.o/o) for our VPC `Internet Gateway (IGW)` 
   - RDS security group with ports 3306(MySQL) open to Webserver security group and local machine. 
   - Webserver Security group with ports 3306(MySQL) open to RDS's Security Group, and HTTP port 80 open to ALB Security Group and 22(SSH) open to Bastion security group.
 
-## WordPress host
+#### Application Load Balancer.
+
+Target group gets created first with health check enabled, since our target type is `instance` in our case it will be our Webserver instances, also `HTTP` and `HTTPS` Listener rules will be created both of them forwarded to target group. Application Load Balancer's scheme is internet facing (because we want our customers to see our website), for subnets values `Public subnets` are given as a values otherwise it won’t work. Because only public subnets are connected to `IGW`, if you choose `Private subnets` it will keep hitting your `NAT gateway` and eventually it will drop the connection. For Certificate arn I passed the data source `aws_acm_certificate` where Terraform will go and get the existing resource in our case is Certificate, ACM certificate makes your website secure, if you don't have one you can always create it.
+
+#### Webserver
 
 For this Demo, Amazon LINUX 2 machine (AMI) and t2.micro instance type were used and bash script was added in the user data section. This bash script will download php, httpd, mysql-agent and Wordpress package and unzips it.  
 
@@ -99,16 +103,13 @@ sudo systemctl restart httpd
 ```
 
 ## RDS database    
-<p>
+
 RDS db will be created with an engine MariaDB and version 10.4.8, database instance class, storage type , allocated storage will be chosen from the RDS database parameters. 
 
 Enter RDS db master _```username```_ and _```password```_.
 
 RDS Security group public access will be false for security reason. For learning purposes no backing up ,storage isn't encrypted because db.t2.micro is too small.  
 
-## Target Group and Application Load Balancer. 
-
-Target group created with health check enabled, since our target type is "instance" in our case it will be WordPress host, also two Listener rules HTTP and HTTPS both of them forwarded to target group. Application Load Balancer's scheme is internet facing (because we want our customers to see our website), VPC with public subnets  will be chosen otherwise it won’t work. Because only public subnets have internet, if you choose private subnet it will keep hitting your NAT gateway and eventually it will drop it. Enter your ACM certificate to make your website secure if you have one, if not you need to create it. 
 
 ## Route 53
 
@@ -117,15 +118,15 @@ The last resource is Route 53, Hosted Zone Name will be available from your host
 Another important thing to remember to keep in mind that, always put . after your domain name, it’s in AWS  documentation. As it's shown on lines 558 and 561.
 
 ## Notes 
-<p>
-The following  plugins are required to be installed and activated in the WordPress: 
-- JSM force ssl
-  - JSM's Force HTTP to HTTPS (SSL) – Simple, Safe, Reliable, and Fast!
-- Simple 301 redirect 
-  - Redirection
 
+The following  plugins are required to be installed and activated in the WordPress:
+```
+- JSM force ssl. (JSM's Force HTTP to HTTPS (SSL) – Simple, Safe, Reliable, and Fast!)
+
+- Simple 301 redirect. (Redirection)
+```
 These plugins helps you to make your application secure , without redirecting  your HTTP/80 listener to HTTPS/443.
-</p>
+
 ## Useful Links
 
 [The count meta-argument](https://www.terraform.io/docs/language/meta-arguments/count.html)
