@@ -70,7 +70,7 @@ For private subnets Internet comes with NAT Gateway it will be created with Elas
 The next resource is Route tables (public and private) 2 public subnets will be associated with  Public-RT attached with Internet Gateway and 2 private subnets will be associated with  Private-RT which is attached to Nat Gateway. 
 
 The next step is security groups:
- 
+
   - Load balancer security group  with HTTPS 443 and HTTP 80 ports open to 0.0.0.0/0.
   - RDS security group with MySQL port 3306 open to WordPress host's Security Group. 
   - WordPress host's Security group with port MySQL 3306 open to RDS's Security Group, and HTTP port 80 open to ELB Security Group.
@@ -82,19 +82,21 @@ For this Demo, Amazon LINUX 2 machine (AMI) and t2.micro instance type were used
 ### UserData
 ```
 #!/bin/bash
+sudo yum update -y
+sudo amazon-linux-extras install epel -y
 sudo hostnamectl set-hostname wordpress-web
-sudo amazon-linux-extras install -y php7.2
+sudo amazon-linux-extras install -y php8.0
 sudo yum install -y httpd 
 sudo systemctl start httpd
 sudo systemctl enable httpd
 wget https://wordpress.org/latest.tar.gz
 tar -xzf latest.tar.gz
 sudo yum install php-gd -y
-sudo yum install mysql -y 
+sudo yum install mariadb -y
 sudo systemctl restart httpd
 sudo cp -r wordpress/* /var/www/html
 sudo chown -R apache:apache /var/www/html
-sudo systemctl restart http   
+sudo systemctl restart httpd  
 ```
 
 ## RDS database    
