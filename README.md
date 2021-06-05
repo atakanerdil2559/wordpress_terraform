@@ -65,9 +65,9 @@ The content of this Repository is reusable and it will provision `VPC` with CIDR
 
 The VPC is configured with count meta-argument with index, element, lenght functions and for tags locals with merge function is used. When we have similar (repeating) resources such as public/private subnets and public/private route table associations we can use count.index to avoid it. With one public/private subnet resource block we are able to provision three public/private subnets same with route table association. Values for variables defined in variables.tf were passed as a list of strings in tfvars/dev.tf.
 
-To have access to the Internet (o.o.o.o/o) `Internet Gateway (IGW)` comes along and which gets attached to created VPC. For Private subnets Internet comes with `NAT Gateway` which will be sitting on Public subnet, Elastic IP (EIP) also will be created and attached to it. My frontend and backend will be sitting on Private subnets for security reasons. 
+To have access to the Internet (o.o.o.o/o) `Internet Gateway (IGW)` comes along and which gets attached to created VPC. For Private subnets Internet comes with `NAT Gateway` which will be sitting on Public subnet, Elastic IP (EIP) also will be created and attached to it. My frontend and backend will be sitting on Private subnets for security reasons, only access to to webserver will be Bastion Host, which will be sitting on a Public subnet. I manually created ssh-key of Bastion host and imported it to AWS console and on launch template key_name's value is  `bastion-key` which is imported key.  
 
-The next resource is Route tables (public and private) 2 public subnets will be associated with  Public-RT attached with Internet Gateway and 2 private subnets will be associated with  Private-RT which is attached to Nat Gateway. 
+The next resources are Public/Private Route tables where 3 Public subnets will be associated with  Public-RT attached to Internet Gateway and 3 Private subnets will be associated with  Private-RT which is attached to Nat Gateway. 
 
 The next step is security groups:
 
