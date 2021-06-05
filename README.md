@@ -14,10 +14,10 @@ Work In Progress
 ```
 git clone https://github.com/nazy67/wordpress_with_terraform.git
 
+# run the next command on vpc directory, webserver and rds directories without dev.tf
+
 terraform init
-
 terraform plan  -var-file=tfvars/dev.tf
-
 terraform apply -var-file=tfvars/dev.tf
 ```
 
@@ -61,11 +61,13 @@ terraform apply -var-file=tfvars/dev.tf
 
 ## Description
 
-This template is reusable it will provision VPC with CIDR 10.0.0.0/16, with  2 Public with CIDR 10.0.1.0/24 & 10.0.2.0/24 and 2 private subnets with CIDR 10.0.11.0/24 & 10.0.11.0/24.
+This template is reusable it will provision `VPC` with CIDR 10.0.0.0/16, with  `3 Public` with CIDR 10.0.1.0/24, 10.0.2.0/24 & 10.0.3.0/24 and `3 private subnets` with CIDR 10.0.10.0/24, 10.0.11.0/24 & 10.0.12.0/24.
 
-After that created VPC needs to have an access to the Internet and Internet Gateway will solve that when it gets created it will attached to VPC.
+The VPC is configured with count meta-argument with index, element, lenght functions and for tags locals with merge function is used. When we have similar (repeating) resources such as public/private subnets and public/private route table associations we can use count.index to avoid it. With one public/private subnet resource block we are able to provision three public/private subnets same with route table association. Values for variables defined in variables.tf were passed as a list of strings in tfvars/dev.tf.
 
-For private subnets Internet comes with NAT Gateway it will be created with Elastic IP address (the reason behind it, if you want to updates your website it has to have static IP) which will attached to one of the public subnets, because in that manner private subnets won’t be open to the world it's secure. 
+To have an access to the Internet (o.o.o.o/o) `Internet Gateway (IGW)` comes along and which gets attached to created VPC.
+
+For Private subnets Internet comes with `NAT Gateway` which will be sitting on Public subnet, Elastic IP (EIP) also will be created and attached to it. Your application will be sitting on private subnet and it has to have static IP, it's  good security practice. 
 
 The next resource is Route tables (public and private) 2 public subnets will be associated with  Public-RT attached with Internet Gateway and 2 private subnets will be associated with  Private-RT which is attached to Nat Gateway. 
 
