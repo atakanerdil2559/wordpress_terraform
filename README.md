@@ -61,19 +61,18 @@ terraform apply -var-file=tfvars/dev.tf
 
 ## Description
 
-The content of this Repository is reusable and it will provision `VPC` with CIDR 10.0.0.0/16, with  `3 Public` with CIDR 10.0.1.0/24, 10.0.2.0/24 & 10.0.3.0/24 and `3 private subnets` with CIDR 10.0.10.0/24, 10.0.11.0/24 & 10.0.12.0/24.
+The content of this Repository is reusable and it will provision `VPC` with CIDR 10.0.0.0/16, with  `3 Public subnets` with CIDR 10.0.1.0/24, 10.0.2.0/24 & 10.0.3.0/24 and `3 Private subnets` with CIDR 10.0.10.0/24, 10.0.11.0/24 & 10.0.12.0/24. 
 
-The VPC is configured with count meta-argument with index, element, lenght functions and for tags locals with merge function is used. When we have similar (repeating) resources such as public/private subnets and public/private route table associations we can use count.index to avoid it. With one public/private subnet resource block we are able to provision three public/private subnets same with route table association (where 3 Public subnets associated with  Public-RT attached to Internet Gateway, and 3 Private subnets associated with  Private-RT which is attached to Nat Gateway). Values for variables defined in variables.tf were passed as a list of strings in tfvars/dev.tf.
+The VPC is configured with count meta-argument with index, element, lenght functions and for tags locals with merge function is used. When we have similar (repeating) resources such as public/private subnets and public/private route table associations we can use count.index to avoid it. With one public/private subnet resource block we are able to provision three public/private subnets, same with Route table association (where 3 Public subnets associated with `Public-RT` attached to Internet Gateway, and 3 Private subnets associated with `Private-RT` which is attached to Nat Gateway). Values for variables defined in variables.tf were passed as a list of strings in tfvars/dev.tf.
 
-To have access to the Internet (o.o.o.o/o) `Internet Gateway (IGW)` comes along and which gets attached to created VPC. For Private subnets Internet comes with `NAT Gateway` which will be sitting on Public subnet, Elastic IP (EIP) also will be created and attached to it. My frontend and backend will be sitting on Private subnets for security reasons, only access to to webserver will be Bastion Host, which will be sitting on a Public subnet. I manually created ssh-key of Bastion host and imported it to AWS console and on launch template key_name's value is  `bastion-key` which I imported before, that is the reason of separating vpc, webserver and rds directories.  
+To have access to the Internet (o.o.o.o/o) for our VPC `Internet Gateway (IGW)` comes along and which gets attached to it. For Private subnets Internet comes with `NAT Gateway` which will be sitting on Public subnet, Elastic IP (EIP) also will be created and attached to it. My frontend and backend will be sitting on Private subnets for security reasons, only access to to webserver will be Bastion Host, which will be sitting on a Public subnet. I manually created ssh-key of Bastion host and imported it to AWS console and on launch template key_name's value is  `bastion-key` which I imported before, that is the reason of separating vpc, webserver and rds directories.  
 
+#### Security groups:
 
-
-The next step is security groups:
-
-  - Load balancer security group  with HTTPS 443 and HTTP 80 ports open to 0.0.0.0/0.
-  - RDS security group with MySQL port 3306 open to WordPress host's Security Group. 
-  - WordPress host's Security group with port MySQL 3306 open to RDS's Security Group, and HTTP port 80 open to ELB Security Group.
+  - Bastion host security group, with open ports 22(SSH) to local machine and Webserver security group.
+  - Application Load balancer security group with ports 443(HTTPS) and 80(HTTP) open to 0.0.0.0/0.
+  - RDS security group with ports 3306(MySQL) open to Webserver security group and local machine. 
+  - Webserver Security group with ports 3306(MySQL) open to RDS's Security Group, and HTTP port 80 open to ALB Security Group and 22(SSH) open to Bastion security group.
 
 ## WordPress host
 
